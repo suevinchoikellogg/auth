@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     redirect_to "/companies"
       else
         flash["notice"] = "Nope!"
-        redirect_to "/login"
+      redirect_to "/login"
       end 
     else
       flash["notice"] = "Nope!"
