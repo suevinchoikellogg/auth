@@ -1,9 +1,15 @@
 class ContactsController < ApplicationController
 
   def show
-    @contact = Contact.find_by({ "id" => params["id"] })
-    @company = Company.find_by({ "id" => @contact["company_id"] })
-    @activities = Activity.where({ "contact_id" => @contact["id"] })
+    if User.find_by({"id" => session["user_id"]}) != nil
+      @contact = Contact.find_by({ "id" => params["id"] })
+      @company = Company.find_by({ "id" => @contact["company_id"] })
+      @activities = Activity.where({ "contact_id" => @contact["id"], "user_id" => session["user_id"] })
+        ## authorization! 저 User_Id 가 만든 콘텐츠만 보여주도록 조건을 거는 것
+    else
+      flash["notice"] = "Login first please."
+      redirect_to "/login"
+    end
   end
 
   def new
